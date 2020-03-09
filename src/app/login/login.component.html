@@ -1,0 +1,46 @@
+    <div *ngIf="!Token" class="section-login">
+
+    <h3>Sign In:</h3>
+
+    <form [formGroup]="Form" (ngSubmit)="onSubmit()" class="form">
+
+    	<!-- pattern="[a-zA-Z ]*"" -->
+      <div class="form-group">
+        <label >Email:</label>
+        <input type="text"   name="email" class="form-control" placeholder="Type your email" formControlName="email" required>
+        <span *ngIf="!Form.get('email').valid && Form.get('email').touched"
+        class="help-block  alert-danger">
+          Email is not validated!!!
+        </span>
+      </div>
+      <div class="form-group">
+        <label >Password:</label>
+        <input  type="password" name="password" class="form-control" placeholder="Set password" formControlName="password" required>
+        <span *ngIf="!Form.get('password').valid && Form.get('password').touched"
+        class="help-block  alert-danger">
+         	Password is not validated!!!
+        </span>
+      </div>
+
+      <button type="submit" class="btn btn-primary" [disabled]="!Form.valid"> 
+        Send
+      </button>
+      <div *ngIf="error" class="alert alert-danger">
+        {{error}}
+      </div>
+    </form>
+    <br>
+
+</div>
+
+<div *ngIf="Token">
+  <h3>You logout!!!</h3>
+</div>
+    <!-- <div *ngIf="item.name!==null">
+      <ul>
+      <li>{{item.name}}</li>
+      <li>{{item.amount}}</li>
+      <li>{{item.price}}</li>
+      <li>{{item.cost}}</li>
+      </ul>
+    </div>-->

@@ -1,0 +1,15 @@
+<div *ngIf="isLoading" class="spinner">
+	<app-spinnerloading></app-spinnerloading>
+</div>
+
+<div *ngIf="User" class="user-info">
+
+<h2>User Information</h2>
+
+<ul>
+	<li>Name: {{User.name}}</li>
+	<li>Surname: {{User.surname}}</li>
+	<li>E-mail: {{User.email}}</li>
+</ul>
+
+</div>

@@ -1,0 +1,26 @@
+<nav class="container">
+	<div class="center">
+	<a routerLink="/" 
+	routerLinkActive="active"
+	[routerLinkActiveOptions]="{exact: true}">home</a>
+	<a routerLink="/women" routerLinkActive="active">women</a>
+	<a routerLink="/men" routerLinkActive="active">men</a>
+	<a routerLink="/kids" routerLinkActive="active">kids</a>
+	</div>
+
+	<div class="right">
+	<a routerLink="/login" routerLinkActive="active" *ngIf="!isLogin ">login</a>
+	<a routerLink="/register" routerLinkActive="active" *ngIf="!isLogin ">register</a>
+	
+	<a routerLink="/user" routerLinkActive="active" *ngIf="isLogin">
+	<!-- <div *ngIf="(User$ | async) as user; else loading"> -->
+	{{User.email}}
+	<!-- </div> -->
+	<!-- <ng-template #loading><app-spinnerloading></app-spinnerloading></ng-template>	 -->
+	</a>
+
+	<a routerLink="/" (click)="logout()" *ngIf="isLogin "> logout </a>
+	</div>
+
+
+</nav>

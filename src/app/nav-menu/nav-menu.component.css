@@ -1,0 +1,39 @@
+.container {
+	list-style: none;
+	color: white;
+	padding: 0 2rem;
+	width: 100%;
+	height: inherit;
+	display: inline;
+}
+
+a, 
+a:link,
+a:visited {
+ 	text-decoration: none;
+ 	font-size: 2.4rem; 
+ 	color: white;
+ 	display: inline-block;
+	padding: 0 2rem;
+	border-left: 3px solid #900;
+}
+
+a:hover,
+a:active {
+ color: white;
+ background-color: #900;
+}
+
+.active {
+ color: white;
+ background-color: #900;
+}
+
+
+.center{
+	float: left;
+}
+
+.right {
+	float: right;
+}
