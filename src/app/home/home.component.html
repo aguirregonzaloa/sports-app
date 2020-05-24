@@ -1,23 +1,24 @@
-<div *ngIf="isLoading">
+
+<div *ngIf="(Articles$ | async) as articles; else loading">
+
+	<h1 class="heading">List of Items</h1>
+
+	<div class="container">
+		<ul *ngFor="let article of articles ">
+			<div class="grid__item">
+				<li class="item">Name: {{article.name}}</li>
+				<li class="item">description: {{article.description}}</li>
+				<li class="item">Price: {{article.price}}</li>
+				<!-- <li *ngIf="article.category_id === category.id ">Category: {{article.category_id}}</li> -->
+				<!-- <li class="item" *ngFor="let category of categories">
+					<span *ngIf="article.category_id === category.id">Category: {{category.name}}</span>
+				</li> -->
+				<button class="btn btn-primary">Buy Item</button>
+			</div>
+		</ul>
+	</div>
+	</div>
+
+<ng-template #loading>
 <app-spinnerloading> </app-spinnerloading>	
-</div>
-
-<div *ngIf="!isLoading">
-<h1 class="heading">List of Items</h1>
-
-<div class="container">
-	<ul *ngFor="let article of articles ">
-		<div class="grid__item">
-			<li class="item">Name: {{article.name}}</li>
-			<li class="item">description: {{article.description}}</li>
-			<li class="item">Price: {{article.price}}</li>
-			<!-- <li *ngIf="article.category_id === category.id ">Category: {{article.category_id}}</li> -->
-			<li class="item" *ngFor="let category of categories">
-				<span *ngIf="article.category_id === category.id">Category: {{category.name}}</span>
-			</li>
-			<button class="btn btn-primary">Buy Item</button>
-		</div>
-	</ul>
-</div>
-
-</div>
+</ng-template>
