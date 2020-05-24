@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy , OnChanges } from '@angular/core';
 import { CategoryService } from '../services/category/category.service';
 import { Observable, Subscription } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { map, take, tap, delay } from 'rxjs/operators';
 import {NgForm} from '@angular/forms';
 
 import { IUser } from '../models/user';
@@ -36,10 +36,8 @@ export class NavMenuComponent implements OnInit {
 
           });// End SubscriptionToken
 
-          this.subscriptionUser = this.userservice.User.subscribe(userdata =>{
-            this.User = userdata;
-            console.log(this.User);
-          });
+          this.User$ = this.userservice.User$;
+         // this.User$.subscribe(console.log);
          
   };
 

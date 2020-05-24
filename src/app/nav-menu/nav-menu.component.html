@@ -12,10 +12,10 @@
 	<a routerLink="/login" routerLinkActive="active" *ngIf="!isLogin ">login</a>
 	<a routerLink="/register" routerLinkActive="active" *ngIf="!isLogin ">register</a>
 	
-	<a routerLink="/user" routerLinkActive="active" *ngIf="isLogin">
-	<!-- <div *ngIf="(User$ | async) as user; else loading"> -->
-	{{User.email}}
-	<!-- </div> -->
+	<a routerLink="/user" routerLinkActive="active" *ngIf="isLogin ">
+	<div *ngIf="User$ | async as user">
+	{{user?.email}}
+	</div>
 	<!-- <ng-template #loading><app-spinnerloading></app-spinnerloading></ng-template>	 -->
 	</a>
 

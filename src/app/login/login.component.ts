@@ -52,7 +52,7 @@ export class LoginComponent implements OnInit {
     },
     ()=>{
        const token = localStorage.getItem("token");
-        this.userservice.getUserData(token).subscribe();
+        this.userservice.getUserData(token);
         this.Form.reset();
        this.navigate();
 

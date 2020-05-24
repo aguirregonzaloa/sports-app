@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, BehaviorSubject } from 'rxjs';
 import { map, take, tap, exhaustMap } from 'rxjs/operators';
 
 import { IUser } from '../models/user';
@@ -19,13 +19,14 @@ headers: new HttpHeaders({
 
 // https://jsonplaceholder.typicode.com/users
 export class UserService {
-	loginurl = globalurl+'api/login';
-  logouturl = globalurl+'api/logout';
-	registerurl = globalurl+'api/register';
-	userurl = globalurl+'api/userdata';
-  User = new Subject<IUser>();
-  login = new Subject<boolean>();
-  token = new Subject<string>();
+  loginurl = globalurl + 'api/login';
+  logouturl = globalurl + 'api/logout';
+  registerurl = globalurl + 'api/register';
+  userurl = globalurl + 'api/userdata';
+  private subject = new BehaviorSubject<IUser>(null);
+  User$: Observable<IUser> = this.subject.asObservable();
+  login = new BehaviorSubject<boolean>(false);
+  token = new BehaviorSubject<string>(' ');
 
   constructor(private http:HttpClient) { }
   
@@ -47,21 +48,24 @@ export class UserService {
   	return this.http.post(this.registerurl, body, httpOptions);
   }
 
-    getUserData(token:string): Observable<IUser>{
+    getUserData(token: string) {
   	const body = {token: token}
-  	return this.http.post<IUser>(this.userurl, body, httpOptions)
-    .pipe(tap(resUser=>{
-      this.User.next(resUser['user']);
-      this.login.next(true);
-      this.token.next(token);
-    }));
+    this.http.post<IUser>(this.userurl, body, httpOptions)
+    .pipe(
+      tap(val => console.log(val)),
+      map(res => res['user'])
+    )
+     .subscribe( user =>{
+     this.subject.next(user);
+    this.login.next(true);
+    this.token.next(token);});
     }
 
     logoutUser(token:string){
     const body = {token: token}
     return this.http.post(this.logouturl, body, httpOptions)
     .pipe(tap(res=>{
-      this.User.next(null);
+      this.subject.next(null);
       this.login.next(false);
       this.token.next(null);
     }));
