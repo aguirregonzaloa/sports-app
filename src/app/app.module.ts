@@ -11,6 +11,8 @@ import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { RegisterComponent } from './register/register.component';
 import { UserComponent } from './user/user.component';
 import { SpinnerloadingComponent } from './shared/spinnerloading/spinnerloading.component';
+import { CreatearticleComponent } from './articles/createarticle/createarticle.component';
+import { EditarticleComponent } from './articles/editarticle/editarticle.component';
 
 
 @NgModule({
@@ -21,7 +23,9 @@ import { SpinnerloadingComponent } from './shared/spinnerloading/spinnerloading.
     NavMenuComponent,
   	RegisterComponent,
   	UserComponent,
-  	SpinnerloadingComponent
+  	SpinnerloadingComponent,
+  	CreatearticleComponent,
+  	EditarticleComponent
   ],
   imports: [
     BrowserModule,
