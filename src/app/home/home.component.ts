@@ -32,7 +32,11 @@ export class HomeComponent implements OnInit {
         this.path = data[0].path;
      });
      this.Articles$ = this.articleservice.Article$;
-     this.Articles$.subscribe(console.log);
+
+    this.Articles$.subscribe((data) => {
+      if(data.length>0)
+      this.isLoading = false; 
+    });
 
      switch (this.path) 
      {

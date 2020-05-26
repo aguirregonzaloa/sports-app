@@ -1,8 +1,8 @@
-
-<div *ngIf="(Articles$ | async) as articles; else loading">
+<div *ngIf="!isLoading">
 
 	<h1 class="heading">List of Items</h1>
-
+	
+	<div *ngIf="(Articles$ | async) as articles">
 	<div class="container">
 		<ul *ngFor="let article of articles ">
 			<div class="grid__item">
@@ -18,7 +18,8 @@
 		</ul>
 	</div>
 	</div>
+</div>
 
-<ng-template #loading>
+<div *ngIf="isLoading">
 <app-spinnerloading> </app-spinnerloading>	
-</ng-template>
+</div>
