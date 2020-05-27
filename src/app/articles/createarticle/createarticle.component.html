@@ -1,1 +1,73 @@
-<p>createarticle works!</p>
+<div class="section-article">
+    <h3>Create Article:</h3>
+
+    <form [formGroup]="Form" (ngSubmit)="onSubmit()" class="form">
+
+    	<!-- pattern="[a-zA-Z ]*"" -->
+      <div class="form-group">
+      	<label >Name:</label>
+        <input type="text"   name="name" class="form-control" placeholder="Type your name" formControlName="name" required>
+        <span *ngIf="!Form.get('name').valid && Form.get('name').touched"
+        class="help-block  alert-danger">
+          Name is not validated!!!
+        </span>
+      </div>
+      
+      <div class="form-group">
+        <label >Description:</label>
+        <input  type="text" name="description" class="form-control" placeholder="Set a description" formControlName="description" required>
+        <span *ngIf="!Form.get('description').valid && Form.get('description').touched"
+        class="help-block  alert-danger">
+         	Description is not validated!!!
+        </span>
+      </div>
+
+      <div class="form-group">        
+        <label >Price:</label>
+        <input type="text"   name="price" class="form-control" placeholder="Type your price" formControlName="price" required>
+        <span *ngIf="!Form.get('price').valid && Form.get('price').touched"
+        class="help-block  alert-danger">
+          Price is not validated!!!
+        </span>
+      </div>
+
+      <div class="form-group">
+        <label >Category:</label>
+        <input  type="text" name="category_id" class="form-control" placeholder="Set category_id" formControlName="category_id" required>
+        <span *ngIf="!Form.get('category_id').valid && Form.get('category_id').touched"
+        class="help-block  alert-danger">
+         	Category is not validated!!!
+        </span>
+      </div>
+
+      <button type="submit" class="btn btn-primary" [disabled]="!Form.valid"> 
+        Send
+      </button>
+      <!-- <div *ngIf="error" class="alert alert-danger">
+        {{error}}
+      </div>
+      <div *ngIf="isRegister" class="alert alert-success">
+        You registered successfully!!! Go to <strong>Login</strong>
+      </div> -->
+    </form>
+    <br>
+</div>
+
+
+<div *ngIf="Articles$ | async as articles">
+
+<table  style="width:100%">
+        <tr>
+          <th>Name:</th>
+          <th>Description: </th>
+          <th>Price: </th>
+          <th>Category: </th>
+        </tr>
+        <tr *ngFor = "let article of articles">
+          <td>{{article.name}}</td>
+          <td>{{article.description}}</td>
+          <td>{{article.price}}</td>
+          <td>{{article.category_id}}</td>
+        </tr>
+</table>
+</div>

@@ -3,15 +3,15 @@
 	<a routerLink="/" 
 	routerLinkActive="active"
 	[routerLinkActiveOptions]="{exact: true}">home</a>
-	<a routerLink="/women" routerLinkActive="active">women</a>
-	<a routerLink="/men" routerLinkActive="active">men</a>
-	<a routerLink="/kids" routerLinkActive="active">kids</a>
-	<a routerLink="/createarticle" routerLinkActive="active">kids</a>
+	<a routerLink="/women" routerLinkActive="active">Women</a>
+	<a routerLink="/men" routerLinkActive="active">Men</a>
+	<a routerLink="/kids" routerLinkActive="active">Kids</a>
+	<a routerLink="/createarticle" routerLinkActive="active">Create Article</a>
 	</div>
 
 	<div class="right">
-	<a routerLink="/login" routerLinkActive="active" *ngIf="!isLogin ">login</a>
-	<a routerLink="/register" routerLinkActive="active" *ngIf="!isLogin ">register</a>
+	<a routerLink="/login" routerLinkActive="active" *ngIf="!isLogin ">Login</a>
+	<a routerLink="/register" routerLinkActive="active" *ngIf="!isLogin ">Register</a>
 	
 	<a routerLink="/user" routerLinkActive="active" *ngIf="isLogin ">
 	<div *ngIf="User$ | async as user">
