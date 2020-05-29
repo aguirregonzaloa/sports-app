@@ -40,8 +40,9 @@ export class CreatearticleComponent implements OnInit {
     this.newArticle.price = this.Form.value.price;
     this.newArticle.category_id = this.Form.value.category_id;
     console.log(this.newArticle);
-    this.articleservice.addArticle(this.newArticle);
-    this.Form.reset();
+    // this.articleservice.addArticle(this.newArticle);
+    this.articleservice.editArticle(1, this.newArticle);
+    // this.Form.reset();
   }
 
 }
