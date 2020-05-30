@@ -43,23 +43,39 @@ export class ArticleService {
     }
     
     filterArticlesByCategory(id: number) {
-      return this.Article$.pipe(
-        map(courses => courses.filter(course => course.category_id === id) )
-        );
+      return this.Article$
+      .pipe(
+        map(articles => articles.filter(article => article.category_id === id) )
+      );
     }
 
     postArticle(article: IArticle) {
-      this.http.post(this.url, article, httpOptions);
+      this.http.post(this.url, article, httpOptions)
+      .pipe(
+        tap((val) => console.log(val)),
+        map(res => res['data'])
+      )
+      .subscribe(data => {
+        console.log('data post: ', data);
+        this.addArticle(data);
+
+      });
     }
 
     updateArticle(id: number, article: IArticle) {
-      this.http.put(this.url + `/${id}`, article, httpOptions);
+      this.http.put(this.url + `/${id}`, article, httpOptions)
+      .pipe(
+        map(res => res['data'])
+      )
+      .subscribe(data => {
+        this.editArticle(data.id, data);
+      });
     }
 
     addArticle(article: IArticle) {
       const articles = this.subject.getValue();
-      const val = Object.assign({}, article); /* Create a new value without refernce */
-      const addarticles = [...articles, val];
+      // const val = Object.assign({}, article); /* Create a new value without reference */
+      const addarticles = [...articles, article];
       this.subject.next(addarticles);
     }
 

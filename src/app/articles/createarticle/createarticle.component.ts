@@ -26,22 +26,21 @@ export class CreatearticleComponent implements OnInit {
     this.Form = new FormGroup({
       'name': new FormControl(null,[Validators.required,
        Validators.pattern('[A-Za-z ].{3,30}')]),     
-       'description': new FormControl(null,[Validators.required,
+      'description': new FormControl(null,[Validators.required,
        Validators.pattern('[A-Za-z].{3,30}')]),     
-     'price': new FormControl(null, [Validators.required]),
-     'category_id': new FormControl(null, Validators.required)
-          
+      'price': new FormControl(null, [Validators.required, Validators.pattern('([0-9]*[.])?[0-9]*')]),
+      'category_id': new FormControl(null, [Validators.required, Validators.pattern('^[0-9]$')])
    });
   }
 
-  onSubmit(){
+  onSubmit() {
     this.newArticle.name = this.Form.value.name;
     this.newArticle.description = this.Form.value.description;
     this.newArticle.price = this.Form.value.price;
     this.newArticle.category_id = this.Form.value.category_id;
     console.log(this.newArticle);
-    // this.articleservice.addArticle(this.newArticle);
-    this.articleservice.editArticle(1, this.newArticle);
+    this.articleservice.postArticle(this.newArticle);
+    // this.articleservice.editArticle(1, this.newArticle);
     // this.Form.reset();
   }
 
