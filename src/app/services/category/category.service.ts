@@ -2,18 +2,30 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import  globalurl  from '../../models/globalurl';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { ICategory } from 'src/app/models/category';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CategoryService {
-	url = globalurl + 'api/category';
+  url = globalurl + 'api/category';
+  private subject = new BehaviorSubject<ICategory[]>([]);
+  Categories: Observable<ICategory[]> = this.subject.asObservable();
+
   constructor(private http:HttpClient) {
 	
    }
 
    getCategories(){
-   	return this.http.get(this.url);
+      this.http.get(this.url).
+      pipe(
+        map(res => res['data'])
+      )
+      .subscribe(
+        data => this.subject.next(data)
+      );
    }
 
    getCategoryName(id:number){

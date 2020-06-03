@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
-import { IUser } from './models/user';
 import { UserService } from './services/user.service';
 import { ArticleService } from './services/article/article.service';
+import { CategoryService } from './services/category/category.service';
 
 
 @Component({
@@ -13,11 +13,16 @@ import { ArticleService } from './services/article/article.service';
 export class AppComponent {
   title = 'sports-app';
   constructor(private userservice: UserService,
-    private articleservice: ArticleService){}
+              private articleservice: ArticleService,
+              private categoryservice: CategoryService) {}
   
   ngOnInit(){
     this.articleservice.getArticles();
-  	const token = localStorage.getItem("token");
-        this.userservice.getUserData(token);
+
+    const token = localStorage.getItem("token");
+    if(token)
+    this.userservice.getUserData(token);
+
+    this.categoryservice.getCategories();
   }
 }

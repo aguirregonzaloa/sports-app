@@ -6,6 +6,7 @@ import {NgForm} from '@angular/forms';
 
 import { IUser } from '../models/user';
 import { UserService } from '../services/user.service';
+import { ICategory } from '../models/category';
 
 @Component({
   selector: 'app-nav-menu',
@@ -13,44 +14,42 @@ import { UserService } from '../services/user.service';
   styleUrls: ['./nav-menu.component.css']
 })
 export class NavMenuComponent implements OnInit {
-	
+
   subscriptionLogin: Subscription; 
   subscriptionToken: Subscription; 
-  subscriptionUser: Subscription; 
   User$: Observable<IUser>;
+  Categories$: Observable<ICategory[]>;
   User: IUser = null;
   token: string = null;
   isLogin = false;
- 
-  constructor(private userservice: UserService) {
-     }
+
+  constructor(private userservice: UserService,
+              private categoryservice: CategoryService) {}
 
   ngOnInit() {
-       
-      	  this.subscriptionLogin = this.userservice.login.subscribe(data => {
-           this.isLogin = data;
-         });
 
-          this.subscriptionToken = this.userservice.token.subscribe(data => {
-            this.token = data;
+    this.subscriptionLogin = this.userservice.login.subscribe(data => {
+      this.isLogin = data;
+    });
 
-          });// End SubscriptionToken
+    this.subscriptionToken = this.userservice.token.subscribe(data => {
+      this.token = data;
+    }); // End SubscriptionToken
 
-          this.User$ = this.userservice.User$;
+    this.User$ = this.userservice.User$;
          // this.User$.subscribe(console.log);
-         
-  };
-
-  ngOnDestroy(){
-    this.subscriptionLogin.unsubscribe();
-    this.subscriptionToken.unsubscribe();
-    this.subscriptionUser.unsubscribe();
+    this.Categories$ = this.categoryservice.Categories;
+    this.Categories$.subscribe(console.log);
   }
 
+  // tslint:disable-next-line: use-lifecycle-interface
+  ngOnDestroy() {
+    this.subscriptionLogin.unsubscribe();
+    this.subscriptionToken.unsubscribe();
+  }
 
-  logout(){
+  logout() {
     this.userservice.logoutUser(this.token)
-    .subscribe(data => {console.log(data); localStorage.removeItem("token");});
   }
 
 }

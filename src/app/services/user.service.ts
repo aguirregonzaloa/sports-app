@@ -31,17 +31,17 @@ export class UserService {
   constructor(private http:HttpClient) { }
   
 
-  loginUser(email:string, password:string):Observable<string>{
-  	const body = {email: email, password: password}
+  loginUser(email:string, password:string): Observable<string> {
+  	const body = {email: email, password: password};
   	 
      return this.http.post<string>(this.loginurl, body, httpOptions);
   }
 
-  registerUser(user:IUser){
+  registerUser(user:IUser) {
   	 const body = {
        name: user.name,
-       surname:user.surname,
-       email: user.email, 
+       surname: user.surname,
+       email: user.email,
        password: user.password
      }
 
@@ -49,25 +49,29 @@ export class UserService {
   }
 
     getUserData(token: string) {
-  	const body = {token: token}
-    this.http.post<IUser>(this.userurl, body, httpOptions)
-    .pipe(
-      tap(val => console.log(val)),
-      map(res => res['user'])
-    )
-     .subscribe( user =>{
-     this.subject.next(user);
-    this.login.next(true);
-    this.token.next(token);});
+      const body = {token: token}
+      this.http.post<IUser>(this.userurl, body, httpOptions)
+      .pipe(
+        tap(val => console.log(val)),
+        map(res => res['user'])
+      )
+      .subscribe( user =>{
+      this.subject.next(user);
+      this.login.next(true);
+      this.token.next(token);},
+      (errors)=>{
+        localStorage.removeItem('token');
+        this.token.next(null);
+      });
     }
 
     logoutUser(token:string){
-    const body = {token: token}
-    return this.http.post(this.logouturl, body, httpOptions)
-    .pipe(tap(res=>{
-      this.subject.next(null);
-      this.login.next(false);
-      this.token.next(null);
-    }));
+      const body = {token: token};
+      this.http.post(this.logouturl, body, httpOptions)
+      .subscribe(() => {
+        this.subject.next(null);
+        this.login.next(false);
+        this.token.next(null);
+      });
     }
 }

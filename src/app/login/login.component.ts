@@ -41,7 +41,7 @@ export class LoginComponent implements OnInit {
     const password = this.Form.get('password').value;
      this.error = null;
 
-    this.userservice.loginUser(email,password)
+    this.userservice.loginUser(email, password)
     .subscribe(data => {
            localStorage.setItem("token", data['token']);
 
