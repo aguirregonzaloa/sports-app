@@ -15,8 +15,6 @@ import { ICategory } from '../models/category';
 })
 export class NavMenuComponent implements OnInit {
 
-  subscriptionLogin: Subscription; 
-  subscriptionToken: Subscription; 
   User$: Observable<IUser>;
   Categories$: Observable<ICategory[]>;
   User: IUser = null;
@@ -28,15 +26,9 @@ export class NavMenuComponent implements OnInit {
 
   ngOnInit() {
 
-    this.subscriptionLogin = this.userservice.login.subscribe(data => {
-      this.isLogin = data;
-    });
-
-    this.subscriptionToken = this.userservice.token.subscribe(data => {
-      this.token = data;
-    }); // End SubscriptionToken
-
     this.User$ = this.userservice.User$;
+    this.userservice.Login$.subscribe(data => this.isLogin = data);
+    this.userservice.Token$.subscribe(data => this.token = data);
          // this.User$.subscribe(console.log);
     this.Categories$ = this.categoryservice.Categories;
     this.Categories$.subscribe(console.log);
@@ -44,12 +36,11 @@ export class NavMenuComponent implements OnInit {
 
   // tslint:disable-next-line: use-lifecycle-interface
   ngOnDestroy() {
-    this.subscriptionLogin.unsubscribe();
-    this.subscriptionToken.unsubscribe();
+
   }
 
   logout() {
-    this.userservice.logoutUser(this.token)
+    this.userservice.logoutUser(this.token);
   }
 
 }

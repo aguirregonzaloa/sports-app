@@ -6,6 +6,7 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 
 import { IUser } from '../models/user';
 import { UserService } from '../services/user.service'
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -17,7 +18,8 @@ export class LoginComponent implements OnInit {
   Form: FormGroup;
   Token: string = null;
   error:string = null;
-  isLoggin:boolean = false;
+  isLoggin:boolean;
+  Login$: Observable<boolean>;
 
 
   constructor(private route: ActivatedRoute,
@@ -27,42 +29,23 @@ export class LoginComponent implements OnInit {
 
   // regex mail = Validators.pattern('[A-Za-z0-9._%-]+@[A-Za-z0-9._%-]+\\.[a-z]{2,3}')
   ngOnInit() {
-  	 this.Form = new FormGroup({
+
+      this.Form = new FormGroup({
       'email': new FormControl(null, [Validators.required,
          Validators.pattern('[A-Za-z0-9._%-]+@[A-Za-z0-9._%-]+\\.[a-z]{2,3}')]),
       'password': new FormControl(null,[Validators.required,
-        Validators.pattern('[A-Za-z0-9._%-].{3,30}')]),      
+        Validators.pattern('[A-Za-z0-9._%-].{3,30}')]),
     });
-      
   }
 
-  onSubmit(){
+  onSubmit() {
     const email = this.Form.get('email').value;
     const password = this.Form.get('password').value;
-     this.error = null;
+    this.error = null;
 
-    this.userservice.loginUser(email, password)
-    .subscribe(data => {
-           localStorage.setItem("token", data['token']);
-
-    },
-    (err) => {console.log(err);
-      this.error = 'Email or Password was incorrected!!!';
-      this.Form.reset();
-    },
-    ()=>{
-       const token = localStorage.getItem("token");
-        this.userservice.getUserData(token);
-        this.Form.reset();
-       this.navigate();
-
-        });
-   
+    this.userservice.loginUser(email, password);
+    this.router.navigateByUrl('/');
   }
 
-   navigate() {
-    this.router.navigateByUrl('/user');
-  }
 
- 
 }
