@@ -3,9 +3,15 @@
 	<a routerLink="/" 
 	routerLinkActive="active"
 	[routerLinkActiveOptions]="{exact: true}">home</a>
-	<a routerLink="/women" routerLinkActive="active">Women</a>
-	<a routerLink="/men" routerLinkActive="active">Men</a>
-	<a routerLink="/kids" routerLinkActive="active">Kids</a>
+	<div *ngIf="Categories$ | async as categories" >
+	<a 
+	[routerLink]="['/', category.name ]" 
+	*ngFor="let category of categories"
+	routerLinkActive="active">
+	{{category.name}}
+	</a>
+	
+	</div>
 	<a routerLink="/createarticle" routerLinkActive="active">Create Article</a>
 	</div>
 

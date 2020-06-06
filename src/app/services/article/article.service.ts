@@ -43,6 +43,26 @@ export class ArticleService {
       return this.filterArticlesByCategory(3);
     }
     
+    filterArticlebyCategoryname(name: string){
+      switch (name) 
+     {
+         case "women":
+          console.log('switch case women');
+          return this.getWomenArticle();
+          break;
+          case "men":
+            console.log('switch case men');
+            return this.getMenArticle();
+          break;
+          case "kids":
+            console.log('switch case kids');
+            return this.getKidArticle();
+          break;
+      }
+      console.log('switch case default');
+      return this.Article$;
+    }
+
     filterArticlesByCategory(id: number) {
       return this.Article$
       .pipe(

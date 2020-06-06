@@ -6,6 +6,7 @@ import { CategoryService } from '../services/category/category.service';
 import { IArticle } from '../models/article';
 import { ICategory } from '../models/category';
 import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-home',
@@ -27,31 +28,22 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
 
     // Initial in home page
-     this.route.url.subscribe(data => {
-        if(data[0])
-        this.path = data[0].path;
-     });
-     this.Articles$ = this.articleservice.Article$;
+    this.Articles$ = this.articleservice.Article$;
 
+     this.route.params
+     .pipe(tap(v => console.log('params',v)))
+     .subscribe(data => {
+      this.path = data['id']
+      this.Articles$ = this.articleservice.filterArticlebyCategoryname(this.path);
+      });
+
+      
     this.Articles$.subscribe((data) => {
       if(data.length>0)
       this.isLoading = false; 
     });
 
-     switch (this.path) 
-     {
-         case "women":
-          this.Articles$ = this.articleservice.getWomenArticle();
-          break;
-          case "men":
-            this.Articles$ = this.articleservice.getMenArticle();
-          break;
-          case "kids":
-            this.Articles$ = this.articleservice.getKidArticle();
-          break;
-      }
-      
-      console.log(this.path);
+    console.log(this.path);
     
   }
 

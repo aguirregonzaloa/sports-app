@@ -10,13 +10,11 @@ import { CreatearticleComponent } from './articles/createarticle/createarticle.c
 
 const routes: Routes = [
 {path: '', component: HomeComponent},
-{path: 'men', component: HomeComponent},
-{path: 'women', component: HomeComponent},
-{path: 'kids', component: HomeComponent},
 {path: 'createarticle', component: CreatearticleComponent},
 {path: 'user', component: UserComponent},
 {path: 'login', component: LoginComponent},
-{path: 'register', component: RegisterComponent}
+{path: 'register', component: RegisterComponent},
+{path: ':id', component: HomeComponent},
 ];
 
 @NgModule({
