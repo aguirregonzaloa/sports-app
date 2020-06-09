@@ -4,7 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import globalurl from '../../models/globalurl';
 import { BehaviorSubject } from 'rxjs';
 import { IArticle } from 'src/app/models/article';
-import { map, tap } from 'rxjs/operators';
+import { map, tap, filter } from 'rxjs/operators';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -32,56 +32,57 @@ export class ArticleService {
      )
      .subscribe(articles => this.subject.next(articles));
     }
-    
-    getWomenArticle() {
-      return this.filterArticlesByCategory(1);
-    }
-    getKidArticle() {
-      return this.filterArticlesByCategory(2);
-    }
-    getMenArticle() {
-      return this.filterArticlesByCategory(3);
+
+    getArticle(id: number) {
+      return this.Article$.pipe(
+        map(articles => articles.find(data => data.id === id))
+      );
     }
     
     filterArticlebyCategoryname(name: string){
-      switch (name) 
-     {
+      switch (name) {
          case "women":
-          console.log('switch case women');
           return this.getWomenArticle();
           break;
           case "men":
-            console.log('switch case men');
             return this.getMenArticle();
-          break;
+            break;
           case "kids":
-            console.log('switch case kids');
             return this.getKidArticle();
-          break;
+            break;
+          }
+          return this.Article$;
+        }
+
+        getWomenArticle() {
+          return this.filterArticlesByCategory(1);
+        }
+        getKidArticle() {
+          return this.filterArticlesByCategory(2);
+        }
+        getMenArticle() {
+          return this.filterArticlesByCategory(3);
+        }
+        
+        filterArticlesByCategory(id: number) {
+          return this.Article$
+          .pipe(
+            map(articles => articles.filter(article => article.category_id === id) )
+            );
+        }
+
+      postArticle(article: IArticle) {
+          this.http.post(this.url, article, httpOptions)
+          .pipe(
+            tap((val) => console.log(val)),
+            map(res => res['data'])
+          )
+          .subscribe(data => {
+            console.log('data post: ', data);
+            this.addArticle(data);
+
+          });
       }
-      console.log('switch case default');
-      return this.Article$;
-    }
-
-    filterArticlesByCategory(id: number) {
-      return this.Article$
-      .pipe(
-        map(articles => articles.filter(article => article.category_id === id) )
-      );
-    }
-
-    postArticle(article: IArticle) {
-      this.http.post(this.url, article, httpOptions)
-      .pipe(
-        tap((val) => console.log(val)),
-        map(res => res['data'])
-      )
-      .subscribe(data => {
-        console.log('data post: ', data);
-        this.addArticle(data);
-
-      });
-    }
 
     updateArticle(id: number, article: IArticle) {
       this.http.put(this.url + `/${id}`, article, httpOptions)
