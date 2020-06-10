@@ -51,7 +51,7 @@ export class ArticleService {
         filterArticlesByCategory(id: number) {
           return this.Article$
           .pipe(
-            map(articles => articles.filter(article => article.category_id === id) )
+            map(articles => articles.filter(article => article.category_id == id) )
             );
         }
 
@@ -100,7 +100,7 @@ export class ArticleService {
     'Content-Type':  'application/json',
     'Authorization': 'Bearer ' + localStorage.getItem('token'),
     })}
-  }
+    }
 
 
 }
