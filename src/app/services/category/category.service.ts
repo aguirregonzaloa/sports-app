@@ -12,7 +12,7 @@ import { map } from 'rxjs/operators';
 export class CategoryService {
   url = globalurl + 'api/category';
   private subject = new BehaviorSubject<ICategory[]>([]);
-  Categories: Observable<ICategory[]> = this.subject.asObservable();
+  Categories$: Observable<ICategory[]> = this.subject.asObservable();
 
   constructor(private http:HttpClient) {
 	
@@ -30,6 +30,12 @@ export class CategoryService {
 
    getCategoryName(id:number){
    	return this.http.get(this.url+'/'+id);
+   }
+
+   findCategoryId(name: string) {
+     return this.Categories$.pipe(
+       map(categories => categories.find(data => data.name === name))
+     )
    }
 
 }

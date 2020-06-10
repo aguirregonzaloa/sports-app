@@ -12,14 +12,7 @@ import { map, tap, filter } from 'rxjs/operators';
 })
 export class ArticleService {
   
- httpOptions = {
-  headers: new HttpHeaders({
-    'Content-Type':  'application/json',
-    'Authorization': 'Bearer ' + localStorage.getItem('token'),
-  })
-  }
-
-  url = globalurl + 'api/article';
+   url = globalurl + 'api/article';
   private subject = new BehaviorSubject <IArticle[]> ([]);
   Article$ = this.subject.asObservable();
   
@@ -43,26 +36,16 @@ export class ArticleService {
     filterArticlebyCategoryname(name: string){
       switch (name) {
          case "women":
-          return this.getWomenArticle();
+          return this.filterArticlesByCategory(1);
           break;
           case "men":
-            return this.getMenArticle();
+            return this.filterArticlesByCategory(2);
             break;
           case "kids":
-            return this.getKidArticle();
+            return this.filterArticlesByCategory(3);
             break;
           }
           return this.Article$;
-        }
-
-        getWomenArticle() {
-          return this.filterArticlesByCategory(1);
-        }
-        getKidArticle() {
-          return this.filterArticlesByCategory(2);
-        }
-        getMenArticle() {
-          return this.filterArticlesByCategory(3);
         }
         
         filterArticlesByCategory(id: number) {
@@ -73,7 +56,8 @@ export class ArticleService {
         }
 
       postArticle(article: IArticle) {
-          this.http.post(this.url, article, this.httpOptions)
+          const httpOptions = this.onHttpOption();
+          this.http.post(this.url, article, httpOptions)
           .pipe(
             tap((val) => console.log(val)),
             map(res => res['data'])
@@ -86,7 +70,8 @@ export class ArticleService {
       }
 
     updateArticle(id: number, article: IArticle) {
-      this.http.put(this.url + `/${id}`, article, this.httpOptions)
+      const httpOptions = this.onHttpOption();
+      this.http.put(this.url + `/${id}`, article, httpOptions)
       .pipe(
         map(res => res['data'])
       )
@@ -109,6 +94,13 @@ export class ArticleService {
       newarticles[indexId] = article;
       this.subject.next(newarticles);
     }
+
+    onHttpOption() {
+    return { headers: new HttpHeaders({
+    'Content-Type':  'application/json',
+    'Authorization': 'Bearer ' + localStorage.getItem('token'),
+    })}
+  }
 
 
 }

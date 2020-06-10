@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
 
 import { IArticle } from 'src/app/models/article';
 import { ArticleService } from 'src/app/services/article/article.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ICategory } from 'src/app/models/category';
+import { CategoryService } from 'src/app/services/category/category.service';
 
 @Component({
   selector: 'app-editarticle',
@@ -13,10 +15,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class EditarticleComponent implements OnInit {
   Article$: Observable<IArticle>;
+  Categories$: Observable<ICategory[]>;
   Form: FormGroup;
   editArticle: IArticle = {id: null, name: null, description: null, price: null, category_id: null};
 
   constructor(private articleservice: ArticleService,
+              private categoryservice: CategoryService,
               private route: ActivatedRoute,
               private router: Router) { }
 
@@ -24,6 +28,7 @@ export class EditarticleComponent implements OnInit {
     const artId = +this.route.snapshot.params.id;
     this.editArticle.id = artId;
     this.Article$ = this.articleservice.getArticle(artId);
+    this.Categories$ = this.categoryservice.Categories$;
     
     this.Form = new FormGroup({
                 'name': new FormControl(null,[Validators.required,

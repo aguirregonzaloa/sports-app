@@ -31,16 +31,15 @@
         </span>
       </div>
 
-      <div class="form-group">
+        <div class="form-group" *ngIf="Categories$ | async as categories">
         <label >Category:</label>
-        <input  type="text" name="category_id" class="form-control" placeholder="Set category_id" formControlName="category_id" required>
-        <span *ngIf="!Form.get('category_id').valid && Form.get('category_id').touched"
-        class="help-block  alert-danger">
-         	Category is not validated!!!
-        </span>
-      </div>
+        <select placeholder="Select a category" formControlName="category_id">
+          <option disabled>Select a category</option>
+          <option *ngFor="let category of categories" value="{{category.id}}" >{{category.name}}</option>
+        </select>
+        </div>
 
-      <button type="submit" class="btn btn-primary" [disabled]="!Form.valid"> 
+      <button type="submit" class="btn btn-primary" [disabled]="!Form.valid">
         Send
       </button>
       <!-- <div *ngIf="error" class="alert alert-danger">
