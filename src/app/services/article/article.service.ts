@@ -6,18 +6,19 @@ import { BehaviorSubject } from 'rxjs';
 import { IArticle } from 'src/app/models/article';
 import { map, tap, filter } from 'rxjs/operators';
 
-const httpOptions = {
-  headers: new HttpHeaders({
-    'Content-Type':  'application/json',
-    'Authorization': 'Bearer ' + localStorage.getItem('token'),
-  })
-}
 
 @Injectable({
   providedIn: 'root'
 })
 export class ArticleService {
   
+ httpOptions = {
+  headers: new HttpHeaders({
+    'Content-Type':  'application/json',
+    'Authorization': 'Bearer ' + localStorage.getItem('token'),
+  })
+  }
+
   url = globalurl + 'api/article';
   private subject = new BehaviorSubject <IArticle[]> ([]);
   Article$ = this.subject.asObservable();
@@ -72,7 +73,7 @@ export class ArticleService {
         }
 
       postArticle(article: IArticle) {
-          this.http.post(this.url, article, httpOptions)
+          this.http.post(this.url, article, this.httpOptions)
           .pipe(
             tap((val) => console.log(val)),
             map(res => res['data'])
@@ -85,7 +86,7 @@ export class ArticleService {
       }
 
     updateArticle(id: number, article: IArticle) {
-      this.http.put(this.url + `/${id}`, article, httpOptions)
+      this.http.put(this.url + `/${id}`, article, this.httpOptions)
       .pipe(
         map(res => res['data'])
       )

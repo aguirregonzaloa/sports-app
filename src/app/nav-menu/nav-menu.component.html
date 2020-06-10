@@ -5,7 +5,7 @@
 	[routerLinkActiveOptions]="{exact: true}">home</a>
 	<div *ngIf="Categories$ | async as categories" >
 	<a 
-	[routerLink]="['/', category.name ]" 
+	[routerLink]="['/category', category.name ]" 
 	*ngFor="let category of categories"
 	routerLinkActive="active">
 	{{category.name}}

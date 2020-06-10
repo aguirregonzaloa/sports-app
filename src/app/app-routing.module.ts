@@ -10,13 +10,15 @@ import { EditarticleComponent } from './articles/editarticle/editarticle.compone
 
 
 const routes: Routes = [
-{path: '', component: HomeComponent},
+{path: '', component: HomeComponent },
+{path: 'category/:id', component: HomeComponent},
 {path: 'createarticle', component: CreatearticleComponent},
 {path: 'editarticle/:id', component: EditarticleComponent},
 {path: 'user', component: UserComponent},
 {path: 'login', component: LoginComponent},
 {path: 'register', component: RegisterComponent},
-{path: ':id', component: HomeComponent},
+{path:'**', redirectTo: ''}
+
 ];
 
 @NgModule({

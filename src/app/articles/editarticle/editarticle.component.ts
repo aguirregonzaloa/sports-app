@@ -4,7 +4,7 @@ import { Observable, of } from 'rxjs';
 
 import { IArticle } from 'src/app/models/article';
 import { ArticleService } from 'src/app/services/article/article.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-editarticle',
@@ -14,14 +14,15 @@ import { ActivatedRoute } from '@angular/router';
 export class EditarticleComponent implements OnInit {
   Article$: Observable<IArticle>;
   Form: FormGroup;
-  newArticle: IArticle = {name: null, description: null, price: null, category_id: null};
+  editArticle: IArticle = {id: null, name: null, description: null, price: null, category_id: null};
 
   constructor(private articleservice: ArticleService,
-              private route: ActivatedRoute) { }
+              private route: ActivatedRoute,
+              private router: Router) { }
 
   ngOnInit(): void {
     const artId = +this.route.snapshot.params.id;
-    console.log(artId);
+    this.editArticle.id = artId;
     this.Article$ = this.articleservice.getArticle(artId);
     
     this.Form = new FormGroup({
@@ -43,7 +44,19 @@ export class EditarticleComponent implements OnInit {
   }
 
   onSubmit() {
+    if(this.Form.invalid) {
+      return;
+    }
 
+    this.editArticle.name = this.Form.value.name;
+    this.editArticle.description = this.Form.value.description;
+    this.editArticle.price = this.Form.value.price;
+    this.editArticle.category_id = this.Form.value.category_id;
+    this.articleservice.updateArticle(this.editArticle.id, this.editArticle);
+  }
+
+  onBack() {
+    this.router.navigate(['/createarticle']);
   }
 
 }

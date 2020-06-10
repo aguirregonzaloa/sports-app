@@ -41,7 +41,10 @@
       </div>
 
       <button type="submit" class="btn btn-primary" [disabled]="!Form.valid"> 
-        Send
+        Edit
+      </button>
+      <button class="btn btn-primary" (click)="onBack()"> 
+        Back
       </button>
       <!-- <div *ngIf="error" class="alert alert-danger">
         {{error}}
