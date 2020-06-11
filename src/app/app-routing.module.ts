@@ -7,17 +7,18 @@ import { RegisterComponent } from './register/register.component';
 import { UserComponent } from './user/user.component';
 import { CreatearticleComponent } from './articles/createarticle/createarticle.component';
 import { EditarticleComponent } from './articles/editarticle/editarticle.component';
+import { AuthGuard } from './services/authguard/authguard.service';
 
 
 const routes: Routes = [
 {path: '', component: HomeComponent },
 {path: 'category/:id', component: HomeComponent},
-{path: 'createarticle', component: CreatearticleComponent},
+{path: 'createarticle', component: CreatearticleComponent, canActivate:[AuthGuard]},
 {path: 'editarticle/:id', component: EditarticleComponent},
-{path: 'user', component: UserComponent},
+{path: 'user', component: UserComponent, canActivate:[AuthGuard]},
 {path: 'login', component: LoginComponent},
 {path: 'register', component: RegisterComponent},
-{path:'**', redirectTo: ''}
+// {path:'**', redirectTo: '/'}
 
 ];
 

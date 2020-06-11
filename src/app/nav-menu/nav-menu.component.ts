@@ -28,10 +28,8 @@ export class NavMenuComponent implements OnInit {
 
     this.User$ = this.userservice.User$;
     this.userservice.Login$.subscribe(data => this.isLogin = data);
-    this.userservice.Token$.subscribe(data => this.token = data);
          // this.User$.subscribe(console.log);
     this.Categories$ = this.categoryservice.Categories$;
-    this.Categories$.subscribe(console.log);
   }
 
   // tslint:disable-next-line: use-lifecycle-interface
@@ -40,7 +38,7 @@ export class NavMenuComponent implements OnInit {
   }
 
   logout() {
-    this.userservice.logoutUser(this.token);
+    this.userservice.logoutUser();
   }
 
 }

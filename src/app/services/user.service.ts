@@ -27,8 +27,7 @@ export class UserService {
   User$: Observable<IUser> = this.subject.asObservable();
   private loginsubject = new BehaviorSubject<boolean>(false);
   Login$: Observable<boolean> = this.loginsubject.asObservable();
-  private tokensubject = new BehaviorSubject<string>(' ');
-  Token$: Observable<string> = this.tokensubject.asObservable();
+
 
   constructor(private http: HttpClient, private router: Router) { }
 
@@ -40,7 +39,10 @@ export class UserService {
         map(res => res['token'])
       )
       .subscribe(
-        token => localStorage.setItem('token', token),
+        token => {
+          localStorage.setItem('token', token);
+          this.loginsubject.next(true);
+        },
         (errors) => console.log(errors),
         () => {
           const token = localStorage.getItem('token');
@@ -71,21 +73,18 @@ export class UserService {
       .subscribe( user =>{
       this.subject.next(user);
       this.loginsubject.next(true);
-      this.tokensubject.next(token);
       },
       (errors) => {
         localStorage.removeItem('token');
-        this.tokensubject.next(null);
       });
     }
 
-    logoutUser(token: string){
-      const body = {token};
+    logoutUser(){
+      const body = {token: localStorage.getItem('token')};
       this.http.post(this.logouturl, body, httpOptions)
       .subscribe(() => {
         this.subject.next(null);
         this.loginsubject.next(false);
-        this.tokensubject.next(null);
         localStorage.removeItem('token');
       });
     }

@@ -13,7 +13,7 @@ import { UserComponent } from './user/user.component';
 import { SpinnerloadingComponent } from './shared/spinnerloading/spinnerloading.component';
 import { CreatearticleComponent } from './articles/createarticle/createarticle.component';
 import { EditarticleComponent } from './articles/editarticle/editarticle.component';
-
+import { AuthGuard } from './services/authguard/authguard.service';
 
 @NgModule({
   declarations: [
@@ -34,7 +34,7 @@ import { EditarticleComponent } from './articles/editarticle/editarticle.compone
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [],
+  providers: [AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
