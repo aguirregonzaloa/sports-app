@@ -1,6 +1,7 @@
 <div *ngIf="!isLoading">
 
-	<h1 class="heading">List of Items</h1>
+	<h1 *ngIf="path===undefined" class="heading">List of Articles</h1>
+	<h1 *ngIf="path" class="heading">List of {{path}} Articles</h1>
 	
 	<div *ngIf="(Articles$ | async) as articles">
 	<div class="container">

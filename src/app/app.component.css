@@ -31,6 +31,9 @@
 .container {
 	position: relative;
 	width: 100%;
-	height: 95vh;
 	background: #00000033;
+}
+
+.footer {
+	background-color: grey;
 }

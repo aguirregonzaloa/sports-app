@@ -1,28 +1,36 @@
 .section-login {
-	/*padding: 25px 100px;*/
-	position: absolute;
-	top:50%;
-	left:50%;
-	transform: translate(-50%,-50%);
+	padding:auto;
+	margin: auto;
+	width:100%;
+	position: relative;
+	display: block;
 }
 
-.section-login h3 {
+.heading {
 	font-size: 3em;
 	margin-bottom: 0.3em;
+	padding-top: 1rem;
+	display: block;
+    text-align: center;
 }
 
 
 .form {
+	margin: 1rem auto;
+	padding: 5rem 10rem;
 	width: 650px;
-	height: 320px;
 	border-radius: 2rem;
 	background-color: #f1f2f6;
 	box-shadow: 5px 3px #00000033;
+	display: block;
+	text-align: center;
 }
 
 .form-group {
 	width: 100%;
 	padding: 1rem 2rem;
+	display: inline-block;
+	text-align: center;
 }
 
 .form-group label {

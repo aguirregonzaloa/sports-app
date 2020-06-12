@@ -9,7 +9,8 @@ ul {
 }
 
 .container {
-  margin: 4rem auto;
+  margin: 0rem auto;
+  padding: 5rem;
   width: 100%;
   
   display: grid;

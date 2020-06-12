@@ -1,6 +1,6 @@
-    <div *ngIf="!Token" class="section-login">
+<div  class="section-login">
 
-    <h3>Sign In:</h3>
+    <h3 class="heading">Sign In:</h3>
 
     <form [formGroup]="Form" (ngSubmit)="onSubmit()" class="form">
 
@@ -32,15 +32,3 @@
     <br>
 
 </div>
-
-<div *ngIf="Token">
-  <h3>You logout!!!</h3>
-</div>
-    <!-- <div *ngIf="item.name!==null">
-      <ul>
-      <li>{{item.name}}</li>
-      <li>{{item.amount}}</li>
-      <li>{{item.price}}</li>
-      <li>{{item.cost}}</li>
-      </ul>
-    </div>-->
