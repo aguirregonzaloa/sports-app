@@ -1,4 +1,4 @@
-<div class="section-article">
+<div class="section-create-article">
     <h3>Create Article:</h3>
 
     <form [formGroup]="Form" (ngSubmit)="onSubmit()" class="form">
@@ -33,7 +33,7 @@
 
         <div class="form-group" *ngIf="Categories$ | async as categories">
         <label >Category:</label>
-        <select placeholder="Select a category" formControlName="category_id">
+        <select placeholder="Select a category" class="form-control" formControlName="category_id">
           <option disabled>Select a category</option>
           <option *ngFor="let category of categories" value="{{category.id}}" >{{category.name}}</option>
         </select>
@@ -55,7 +55,7 @@
 
 <div *ngIf="Articles$ | async as articles">
 
-<table  style="width:100%">
+<table >
         <tr>
           <th>Name:</th>
           <th>Description: </th>
@@ -67,7 +67,7 @@
           <td>{{article.description}}</td>
           <td>{{article.price}}</td>
           <td>{{article.category_id}}</td>
-          <td><button class="btn edit-btn" [routerLink]="['/editarticle', article.id]">Edit</button></td>
+          <td><button class="btn btn-edit" [routerLink]="['/editarticle', article.id]">Edit</button></td>
         </tr>
 </table>
 </div>

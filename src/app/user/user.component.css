@@ -3,7 +3,18 @@
 }
 
 .user-info {
-	padding: 10px 100px;
+	margin: 0 auto;
+	margin-right: 35px;
+	padding: 5rem;
+	display: block;
+	width: 60rem;
+	background-color: #f1f2f6;
+	box-shadow: 5px 3px #00000033;
+}
+
+.user-info h2 {
+	text-align: right;
+	font-size: 3.6rem;
 }
 
  u  {
@@ -11,5 +22,8 @@
 }
 
 li  {
+	margin: 0 2rem;
+	padding: 2rem;
+	font-size: 2rem;
 	list-style: none;
 }

@@ -3,30 +3,31 @@
 	<a routerLink="/" 
 	routerLinkActive="active"
 	[routerLinkActiveOptions]="{exact: true}">home</a>
-	<div *ngIf="Categories$ | async as categories" >
+	</div>
+	<div class="center" *ngIf="Categories$ | async as categories" >
 	<a 
 	[routerLink]="['/category', category.name ]" 
 	*ngFor="let category of categories"
 	routerLinkActive="active">
 	{{category.name}}
 	</a>
-	
 	</div>
-	<a routerLink="/createarticle" routerLinkActive="active">Create Article</a>
+	<div class="center">
+	<a routerLink="/createarticle" routerLinkActive="active" *ngIf="isLogin">Create Article</a>
 	</div>
 
 	<div class="right">
-	<a routerLink="/login" routerLinkActive="active" *ngIf="!isLogin ">Login</a>
-	<a routerLink="/register" routerLinkActive="active" *ngIf="!isLogin ">Register</a>
+	<a routerLink="/login" routerLinkActive="active" *ngIf="!isLogin">Login</a>
+	<a routerLink="/register" routerLinkActive="active" *ngIf="!isLogin">Register</a>
 	
-	<a routerLink="/user" routerLinkActive="active" *ngIf="isLogin ">
+	<a routerLink="/user" routerLinkActive="active" *ngIf="isLogin">
 	<div *ngIf="User$ | async as user">
 	{{user?.email}}
 	</div>
 	<!-- <ng-template #loading><app-spinnerloading></app-spinnerloading></ng-template>	 -->
 	</a>
 
-	<a routerLink="/" (click)="logout()" *ngIf="isLogin "> logout </a>
+	<a routerLink="/" (click)="logout()" *ngIf="isLogin"> logout </a>
 	</div>
 
 
