@@ -43,7 +43,7 @@
       <button type="submit" class="btn btn-primary" [disabled]="!Form.valid"> 
         Send
       </button>
-      <div *ngIf="error" class="alert alert-danger">
+      <div *ngIf="Error$ | async as error" class="alert alert-danger">
         {{error}}
       </div>
       <div *ngIf="isRegister" class="alert alert-success">

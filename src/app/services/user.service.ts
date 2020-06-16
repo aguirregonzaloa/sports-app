@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
-import { Observable, Subject, BehaviorSubject } from 'rxjs';
-import { map, take, tap, exhaustMap } from 'rxjs/operators';
+import { Observable, Subject, BehaviorSubject, throwError } from 'rxjs';
+import { map, take, tap, exhaustMap, catchError } from 'rxjs/operators';
 
 import { IUser } from '../models/user';
 import globalurl from '../models/globalurl';
@@ -27,6 +27,9 @@ export class UserService {
   User$: Observable<IUser> = this.subject.asObservable();
   private loginsubject = new BehaviorSubject<boolean>(false);
   Login$: Observable<boolean> = this.loginsubject.asObservable();
+  
+  errorsubject = new BehaviorSubject<string>(null);
+  Error$: Observable<string> = this.errorsubject.asObservable();
 
 
   constructor(private http: HttpClient, private router: Router) { }
@@ -36,17 +39,19 @@ export class UserService {
 
     this.http.post<string>(this.loginurl, body, httpOptions)
       .pipe(
-        map(res => res['token'])
+        map(res => res['token']),
+        catchError(error=>this.handleErrors(error))
       )
       .subscribe(
         token => {
           localStorage.setItem('token', token);
           this.loginsubject.next(true);
         },
-        (errors) => console.log(errors),
+        (error) => this.errorsubject.next(error),
         () => {
           const token = localStorage.getItem('token');
           this.getUserData(token);
+          this.router.navigate(['/']);
         }
       );
 
@@ -60,7 +65,17 @@ export class UserService {
        password: user.password
      }
 
-  	 return this.http.post(this.registerurl, body, httpOptions);
+  	 return this.http.post(this.registerurl, body, httpOptions)
+     .pipe(
+       catchError(error => this.handleErrors(error))
+     ).subscribe(data => {
+         console.log(data);
+      },(err) => {
+        this.errorsubject.next('You cannot register, try it again!');
+      }
+      ,() => {
+       this.errorsubject.next(null);
+      });;
   }
 
     getUserData(token: string) {
@@ -87,5 +102,14 @@ export class UserService {
         this.loginsubject.next(false);
         localStorage.removeItem('token');
       });
+    }
+
+    handleErrors(errors: any){
+      /* TODO: Imporve the Backend messages */
+      console.log(errors);
+      const {status, message, error} = errors;
+      console.log('Status: ', status);
+      console.log('message: ', message);
+      return throwError(error.message);
     }
 }
