@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
 
 import { IUser } from '../models/user';
 import { UserService } from '../services/user.service';
@@ -14,7 +15,7 @@ export class RegisterComponent implements OnInit {
 
 	Form: FormGroup;
 	User: IUser = {id:null, name: null, surname: null, email: null, password:null};
-  isRegister:boolean = false;
+  isRegister:string = null;
   Error$:Observable<string>;
 
   constructor(private userservice: UserService) { }
@@ -30,18 +31,20 @@ export class RegisterComponent implements OnInit {
       'password': new FormControl(null,[Validators.required,
         Validators.pattern('[A-Za-z0-9._%-].{3,30}')]),      
     });
-    this.userservice.errorsubject.next(null);
+    this.userservice.errorsubject.next('');
     this.Error$ = this.userservice.Error$;
+    
+    this.userservice.isRegister.subscribe(data => this.isRegister = data);
   }
 
     onSubmit(){
+    // this.isRegister = false;
     this.User.name = this.Form.get('name').value;
     this.User.surname = this.Form.get('surname').value;
     this.User.email = this.Form.get('email').value;
     this.User.password = this.Form.get('password').value;
     
     this.userservice.registerUser(this.User);
-    
   }
 
 }

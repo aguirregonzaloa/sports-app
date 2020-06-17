@@ -46,9 +46,9 @@
       <div *ngIf="Error$ | async as error" class="alert alert-danger">
         {{error}}
       </div>
-      <div *ngIf="isRegister" class="alert alert-success">
-        You registered successfully!!! Go to <strong>Login</strong>
-      </div>
+        <div *ngIf="isRegister" class="alert alert-success">
+          {{isRegister}} Go to <strong>Login</strong>
+        </div>
     </form>
     <br>
 </div>

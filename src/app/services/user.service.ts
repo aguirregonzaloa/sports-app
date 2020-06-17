@@ -28,7 +28,8 @@ export class UserService {
   private loginsubject = new BehaviorSubject<boolean>(false);
   Login$: Observable<boolean> = this.loginsubject.asObservable();
   
-  errorsubject = new BehaviorSubject<string>(null);
+  errorsubject = new BehaviorSubject<string>('');
+  isRegister = new BehaviorSubject<string>('');
   Error$: Observable<string> = this.errorsubject.asObservable();
 
 
@@ -65,16 +66,18 @@ export class UserService {
        password: user.password
      }
 
-  	 return this.http.post(this.registerurl, body, httpOptions)
+  	 this.http.post(this.registerurl, body, httpOptions)
      .pipe(
        catchError(error => this.handleErrors(error))
      ).subscribe(data => {
          console.log(data);
+         this.isRegister.next('You registered successfully!!!');
       },(err) => {
-        this.errorsubject.next('You cannot register, try it again!');
+        this.errorsubject.next(err);
       }
       ,() => {
        this.errorsubject.next(null);
+       setTimeout(()=>{this.isRegister.next(null)},2000);
       });;
   }
 
@@ -82,8 +85,8 @@ export class UserService {
       const body = { token };
       this.http.post<IUser>(this.userurl, body, httpOptions)
       .pipe(
-        tap(val => console.log(val)),
-        map(res => res['user'])
+        map(res => res['user']),
+        catchError(error=>this.handleErrors(error))
       )
       .subscribe( user =>{
       this.subject.next(user);
@@ -105,11 +108,7 @@ export class UserService {
     }
 
     handleErrors(errors: any){
-      /* TODO: Imporve the Backend messages */
-      console.log(errors);
-      const {status, message, error} = errors;
-      console.log('Status: ', status);
-      console.log('message: ', message);
+      const {error} = errors;
       return throwError(error.message);
     }
 }
